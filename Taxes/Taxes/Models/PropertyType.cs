@@ -10,6 +10,7 @@ namespace Taxes.Models
         [Required(ErrorMessage = "The field {0} is required")]
         public string Description { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string Notes { get; set; }
 
     }
