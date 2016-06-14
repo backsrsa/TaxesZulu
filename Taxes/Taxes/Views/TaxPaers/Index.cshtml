@@ -41,41 +41,42 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Department.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DocumentType.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Municipality.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Document)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TaxPaerId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TaxPaerId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TaxPaerId })
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocumentType.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Municipality.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Document)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.TaxPaerId }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Details", "Details", new { id = item.TaxPaerId }, new { @class = "btn btn-info" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.TaxPaerId }, new { @class = "btn btn-danger" })
         </td>
     </tr>
-}
+    }
 
 </table>
