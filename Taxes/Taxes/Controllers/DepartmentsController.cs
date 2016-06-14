@@ -10,47 +10,48 @@ using Taxes.Models;
 
 namespace Taxes.Controllers
 {
-    public class PropertyTypesController : Controller
+    public class DepartmentsController : Controller
     {
         private TaxesContext db = new TaxesContext();
 
-        // GET: PropertyTypes
+        // GET: Departments
         public ActionResult Index()
         {
-            return View(db.PropertyTypes.OrderBy(pt => pt.Description).ToList());
+            return View(db.Departments
+                .OrderBy(department => department.Name).ToList());
         }
 
-        // GET: PropertyTypes/Details/5
+        // GET: Departments/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PropertyType propertyType = db.PropertyTypes.Find(id);
-            if (propertyType == null)
+            Department department = db.Departments.Find(id);
+            if (department == null)
             {
                 return HttpNotFound();
             }
-            return View(propertyType);
+            return View(department);
         }
 
-        // GET: PropertyTypes/Create
+        // GET: Departments/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: PropertyTypes/Create
+        // POST: Departments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PropertyTypeId,Description,Notes")] PropertyType propertyType)
+        public ActionResult Create([Bind(Include = "DepartmentId,Name")] Department department)
         {
             if (ModelState.IsValid)
             {
-                db.PropertyTypes.Add(propertyType);
+                db.Departments.Add(department);
                 try
                 {
                     db.SaveChanges();
@@ -58,8 +59,8 @@ namespace Taxes.Controllers
                 catch (Exception exception)
                 {
                     if (exception.InnerException != null &&
-                        exception.InnerException.InnerException != null &&
-                        exception.InnerException.InnerException.Message.Contains("Index"))
+                         exception.InnerException.InnerException != null &&
+                         exception.InnerException.InnerException.Message.Contains("Index"))
                     {
                         ModelState.AddModelError(string.Empty, "There are a record with the same descripction");
                     }
@@ -68,40 +69,40 @@ namespace Taxes.Controllers
                         ModelState.AddModelError(string.Empty, exception.Message);
                     }
 
-                    return View(propertyType);
-
+                    return View(department);
                 }
+
                 return RedirectToAction("Index");
             }
 
-            return View(propertyType);
+            return View(department);
         }
 
-        // GET: PropertyTypes/Edit/5
+        // GET: Departments/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PropertyType propertyType = db.PropertyTypes.Find(id);
-            if (propertyType == null)
+            Department department = db.Departments.Find(id);
+            if (department == null)
             {
                 return HttpNotFound();
             }
-            return View(propertyType);
+            return View(department);
         }
 
-        // POST: PropertyTypes/Edit/5
+        // POST: Departments/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PropertyTypeId,Description,Notes")] PropertyType propertyType)
+        public ActionResult Edit([Bind(Include = "DepartmentId,Name")] Department department)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(propertyType).State = EntityState.Modified;
+                db.Entry(department).State = EntityState.Modified;
                 try
                 {
                     db.SaveChanges();
@@ -109,8 +110,8 @@ namespace Taxes.Controllers
                 catch (Exception exception)
                 {
                     if (exception.InnerException != null &&
-                        exception.InnerException.InnerException != null &&
-                        exception.InnerException.InnerException.Message.Contains("Index"))
+                                          exception.InnerException.InnerException != null &&
+                                          exception.InnerException.InnerException.Message.Contains("Index"))
                     {
                         ModelState.AddModelError(string.Empty, "There are a record with the same descripction");
                     }
@@ -119,36 +120,35 @@ namespace Taxes.Controllers
                         ModelState.AddModelError(string.Empty, exception.Message);
                     }
 
-                    return View(propertyType);
-
+                    return View(department);
                 }
                 return RedirectToAction("Index");
             }
-            return View(propertyType);
+            return View(department);
         }
 
-        // GET: PropertyTypes/Delete/5
+        // GET: Departments/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var propertyType = db.PropertyTypes.Find(id);
-            if (propertyType == null)
+            Department department = db.Departments.Find(id);
+            if (department == null)
             {
                 return HttpNotFound();
             }
-            return View(propertyType);
+            return View(department);
         }
 
-        // POST: PropertyTypes/Delete/5
+        // POST: Departments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            PropertyType propertyType = db.PropertyTypes.Find(id);
-            db.PropertyTypes.Remove(propertyType);
+            Department department = db.Departments.Find(id);
+            db.Departments.Remove(department);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
