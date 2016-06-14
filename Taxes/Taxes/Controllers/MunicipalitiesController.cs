@@ -39,7 +39,7 @@ namespace Taxes.Controllers
         // GET: Municipalities/Create
         public ActionResult Create()
         {
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name");
+            ViewBag.DepartmentId = new SelectList(db.Departments.OrderBy(x=>x.Name), "DepartmentId", "Name");
             return View();
         }
 
