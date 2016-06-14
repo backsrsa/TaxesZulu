@@ -4,22 +4,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Taxes.Models
 {
-    //[Table("Department")]
-    public class Department
+    public class DocumentType
     {
         [Key]
-        public int DepartmentId { get; set; }
+        public int DocumentTypeId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
-        [Index("Department_Name_Index", IsUnique = true)]
+        [Index("DocumentType_Name_Index", IsUnique = true)]
         [StringLength(30, ErrorMessage = "The field {0} can contain maximum {1} and minimum {2} characters",
           MinimumLength = 1)]
-        [Display(Name = "City Name")]
-        public string Name { get; set; }
-
-        public virtual ICollection<Municipality> Municipalities { get; set; }
+        public string Description { get; set; }
 
         public virtual ICollection<TaxPaer> TaxPaers { get; set; }
-
     }
 }

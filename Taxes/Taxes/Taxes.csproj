@@ -179,10 +179,12 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="Controllers\DocumentTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MunicipalitiesController.cs" />
     <Compile Include="Controllers\PropertyTypesController.cs" />
+    <Compile Include="Controllers\TaxPaersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -201,11 +203,13 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\DocumentType.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Municipality.cs" />
     <Compile Include="Models\PropertyType.cs" />
     <Compile Include="Models\TaxesContext.cs" />
+    <Compile Include="Models\TaxPaer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -279,6 +283,16 @@
     <Content Include="Views\Municipalities\Details.cshtml" />
     <Content Include="Views\Municipalities\Edit.cshtml" />
     <Content Include="Views\Municipalities\Index.cshtml" />
+    <Content Include="Views\DocumentTypes\Create.cshtml" />
+    <Content Include="Views\DocumentTypes\Delete.cshtml" />
+    <Content Include="Views\DocumentTypes\Details.cshtml" />
+    <Content Include="Views\DocumentTypes\Edit.cshtml" />
+    <Content Include="Views\DocumentTypes\Index.cshtml" />
+    <Content Include="Views\TaxPaers\Create.cshtml" />
+    <Content Include="Views\TaxPaers\Delete.cshtml" />
+    <Content Include="Views\TaxPaers\Details.cshtml" />
+    <Content Include="Views\TaxPaers\Edit.cshtml" />
+    <Content Include="Views\TaxPaers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
