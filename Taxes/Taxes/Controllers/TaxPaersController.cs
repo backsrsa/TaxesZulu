@@ -1,7 +1,9 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using Taxes.Classes;
 using Taxes.Models;
 
 namespace Taxes.Controllers
@@ -38,9 +40,14 @@ namespace Taxes.Controllers
         // GET: TaxPaers/Create
         public ActionResult Create()
         {
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name");
-            ViewBag.DocumentTypeId = new SelectList(db.DocumentTypes, "DocumentTypeId", "Description");
-            ViewBag.MunicipalityId = new SelectList(db.Municipalities, "MunicipalityId", "Name");
+            ViewBag.DepartmentId = new SelectList(db.Departments,
+                "DepartmentId", "Name");
+            ViewBag.DocumentTypeId = new SelectList(db.DocumentTypes,
+                "DocumentTypeId", "Description");
+            ViewBag.MunicipalityId = new SelectList(db.Municipalities
+                .Where(m => m.DepartmentId == db.Departments
+                .FirstOrDefault()
+                .DepartmentId).OrderBy(m => m.Name), "MunicipalityId", "Name");
             return View();
         }
 
@@ -54,13 +61,29 @@ namespace Taxes.Controllers
             if (ModelState.IsValid)
             {
                 db.TaxPaers.Add(taxPaer);
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                    Utilities.CreateUser(taxPaer.UserName,"TaxPaer");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty,ex.Message);
+                    ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", taxPaer.DepartmentId);
+                    ViewBag.DocumentTypeId = new SelectList(db.DocumentTypes, "DocumentTypeId", "Description", taxPaer.DocumentTypeId);
+                    ViewBag.MunicipalityId = new SelectList(db.Municipalities
+                       .Where(m => m.DepartmentId == taxPaer.DepartmentId)
+                       .OrderBy(m => m.Name), "MunicipalityId", "Name", taxPaer.MunicipalityId);
+                    return View(taxPaer);
+                }
                 return RedirectToAction("Index");
             }
 
             ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", taxPaer.DepartmentId);
             ViewBag.DocumentTypeId = new SelectList(db.DocumentTypes, "DocumentTypeId", "Description", taxPaer.DocumentTypeId);
-            ViewBag.MunicipalityId = new SelectList(db.Municipalities, "MunicipalityId", "Name", taxPaer.MunicipalityId);
+            ViewBag.MunicipalityId = new SelectList(db.Municipalities
+               .Where(m => m.DepartmentId == taxPaer.DepartmentId)
+               .OrderBy(m => m.Name), "MunicipalityId", "Name", taxPaer.MunicipalityId);
             return View(taxPaer);
         }
 
@@ -78,7 +101,9 @@ namespace Taxes.Controllers
             }
             ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", taxPaer.DepartmentId);
             ViewBag.DocumentTypeId = new SelectList(db.DocumentTypes, "DocumentTypeId", "Description", taxPaer.DocumentTypeId);
-            ViewBag.MunicipalityId = new SelectList(db.Municipalities, "MunicipalityId", "Name", taxPaer.MunicipalityId);
+            ViewBag.MunicipalityId = new SelectList(db.Municipalities
+              .Where(m => m.DepartmentId == taxPaer.DepartmentId)
+              .OrderBy(m => m.Name), "MunicipalityId", "Name", taxPaer.MunicipalityId);
             return View(taxPaer);
         }
 
@@ -97,7 +122,9 @@ namespace Taxes.Controllers
             }
             ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", taxPaer.DepartmentId);
             ViewBag.DocumentTypeId = new SelectList(db.DocumentTypes, "DocumentTypeId", "Description", taxPaer.DocumentTypeId);
-            ViewBag.MunicipalityId = new SelectList(db.Municipalities, "MunicipalityId", "Name", taxPaer.MunicipalityId);
+            ViewBag.MunicipalityId = new SelectList(db.Municipalities
+              .Where(m => m.DepartmentId == taxPaer.DepartmentId)
+              .OrderBy(m => m.Name), "MunicipalityId", "Name", taxPaer.MunicipalityId);
             return View(taxPaer);
         }
 
@@ -126,6 +153,17 @@ namespace Taxes.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        public JsonResult GetMunicipalities(int departmentId)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var municipalities = db.Municipalities
+                .Where(m => m.DepartmentId == departmentId)
+                .OrderBy(m => m.Name);
+            return Json(municipalities);
+        }
+
 
         protected override void Dispose(bool disposing)
         {

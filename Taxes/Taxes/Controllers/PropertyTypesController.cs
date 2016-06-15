@@ -10,6 +10,7 @@ using Taxes.Models;
 
 namespace Taxes.Controllers
 {
+    [Authorize]
     public class PropertyTypesController : Controller
     {
         private TaxesContext db = new TaxesContext();
