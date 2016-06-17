@@ -18,7 +18,7 @@ namespace Taxes
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<TaxesContext, Configuration>());
             this.CheckRoles();
-            this.CheckSuperUser();
+            Utilities.CheckSuperUser();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -26,10 +26,6 @@ namespace Taxes
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
-        private void CheckSuperUser()
-        {
-            
-        }
 
         private void CheckRoles()
         {

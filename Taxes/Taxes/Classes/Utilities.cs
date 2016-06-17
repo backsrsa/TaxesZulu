@@ -26,7 +26,7 @@ namespace Taxes.Classes
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(UserContext));
 
-            var aspUser=new ApplicationUser()
+            var aspUser = new ApplicationUser()
             {
                 Email = email,
                 UserName = email
@@ -39,6 +39,18 @@ namespace Taxes.Classes
         public void Dispose()
         {
             UserContext.Dispose();
+        }
+
+        public static void CheckSuperUser()
+        {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(UserContext));
+            var userAsp = userManager.FindByName("andres.rsa@outlook.com");
+            if (userAsp == null)
+            {
+                CreateUser("andres.rsa@outlook.com","Admin");
+                return;
+            }
+            userManager.AddToRole(userAsp.Id, "Admin");
         }
     }
 }

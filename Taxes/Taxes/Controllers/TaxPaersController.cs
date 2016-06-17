@@ -8,6 +8,7 @@ using Taxes.Models;
 
 namespace Taxes.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class TaxPaersController : Controller
     {
         private TaxesContext db = new TaxesContext();
