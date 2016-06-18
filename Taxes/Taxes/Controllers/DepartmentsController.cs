@@ -29,12 +29,19 @@ namespace Taxes.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Department department = db.Departments.Find(id);
+            var department = db.Departments.Find(id);
             if (department == null)
             {
                 return HttpNotFound();
             }
-            return View(department);
+
+            var view = new DepartmentView()
+            {
+                DepartmentId = department.DepartmentId,
+                MunicipalityList = department.Municipalities.ToList(),
+                Name = department.Name
+            };
+            return View(view);
         }
 
         // GET: Departments/Create
