@@ -185,5 +185,53 @@ namespace Taxes.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult AddMunicipality(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Department department = db.Departments.Find(id);
+            if (department == null)
+            {
+                return HttpNotFound();
+            }
+            var view = new Municipality()
+            {
+                DepartmentId = department.DepartmentId
+            };
+
+            return View(view);
+        }
+
+        [HttpPost]
+        public ActionResult AddMunicipality(Municipality view)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Municipalities.Add(view);
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception exception)
+                {
+                    if (exception.InnerException != null &&
+                         exception.InnerException.InnerException != null &&
+                         exception.InnerException.InnerException.Message.Contains("Index"))
+                    {
+                        ModelState.AddModelError(string.Empty, "There are a record with the same descripction");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, exception.Message);
+                    }
+                    return View(view);
+                }
+                return RedirectToAction($"Details/{view.DepartmentId}");
+            }
+            return View(view);
+        }
     }
 }

@@ -295,6 +295,7 @@
     <Content Include="Views\TaxPaers\Details.cshtml" />
     <Content Include="Views\TaxPaers\Edit.cshtml" />
     <Content Include="Views\TaxPaers\Index.cshtml" />
+    <Content Include="Views\Departments\AddMunicipality.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
