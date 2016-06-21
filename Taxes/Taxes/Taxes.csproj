@@ -184,6 +184,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MunicipalitiesController.cs" />
+    <Compile Include="Controllers\PropertiesController.cs" />
     <Compile Include="Controllers\PropertyTypesController.cs" />
     <Compile Include="Controllers\TaxPaersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -209,6 +210,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Municipality.cs" />
+    <Compile Include="Models\Property.cs" />
     <Compile Include="Models\PropertyType.cs" />
     <Compile Include="Models\TaxesContext.cs" />
     <Compile Include="Models\TaxPaer.cs" />
@@ -296,6 +298,12 @@
     <Content Include="Views\TaxPaers\Edit.cshtml" />
     <Content Include="Views\TaxPaers\Index.cshtml" />
     <Content Include="Views\Departments\AddMunicipality.cshtml" />
+    <Content Include="Views\Departments\EditMunicipality.cshtml" />
+    <Content Include="Views\Properties\Create.cshtml" />
+    <Content Include="Views\Properties\Delete.cshtml" />
+    <Content Include="Views\Properties\Details.cshtml" />
+    <Content Include="Views\Properties\Edit.cshtml" />
+    <Content Include="Views\Properties\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

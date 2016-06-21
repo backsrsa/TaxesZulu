@@ -33,6 +33,8 @@ namespace Taxes.Models
 
         public DbSet<DocumentType> DocumentTypes { get; set; }
 
-        public System.Data.Entity.DbSet<Taxes.Models.TaxPaer> TaxPaers { get; set; }
+        public DbSet<TaxPaer> TaxPaers { get; set; }
+
+        public DbSet<Property> Properties { get; set; }
     }
 }

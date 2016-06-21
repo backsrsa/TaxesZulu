@@ -21,6 +21,7 @@ namespace Taxes.Models
         public virtual Department Department { get; set; }
 
         public virtual ICollection<TaxPaer> TaxPaers { get; set; }
+        public virtual ICollection<Property> Properties { get; set; }
 
     }
 }

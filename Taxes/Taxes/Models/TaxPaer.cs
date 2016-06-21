@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Taxes.Models
@@ -63,5 +65,9 @@ namespace Taxes.Models
         public virtual Municipality Municipality { get; set; }
 
         public virtual DocumentType DocumentType { get; set; }
+
+        public virtual ICollection<Property> Properties { get; set; }
+
+
     }
 }

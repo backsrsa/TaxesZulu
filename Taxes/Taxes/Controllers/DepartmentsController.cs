@@ -18,8 +18,19 @@ namespace Taxes.Controllers
         // GET: Departments
         public ActionResult Index()
         {
-            return View(db.Departments
-                .OrderBy(department => department.Name).ToList());
+
+            var departments = db.Departments.ToList();
+            var view = new List<DepartmentView>();
+            foreach (var department in departments)
+            {
+                view.Add(new DepartmentView()
+                {
+                    DepartmentId = department.DepartmentId,
+                    MunicipalityList = department.Municipalities.ToList(),
+                    Name = department.Name
+                });
+            }
+            return View(view);
         }
 
         // GET: Departments/Details/5
@@ -38,7 +49,7 @@ namespace Taxes.Controllers
             var view = new DepartmentView()
             {
                 DepartmentId = department.DepartmentId,
-                MunicipalityList = department.Municipalities.ToList(),
+                MunicipalityList = department.Municipalities.OrderBy(m=>m.Name).ToList(),
                 Name = department.Name
             };
             return View(view);
@@ -67,8 +78,8 @@ namespace Taxes.Controllers
                 catch (Exception exception)
                 {
                     if (exception.InnerException != null &&
-                         exception.InnerException.InnerException != null &&
-                         exception.InnerException.InnerException.Message.Contains("Index"))
+                        exception.InnerException.InnerException != null &&
+                        exception.InnerException.InnerException.Message.Contains("Index"))
                     {
                         ModelState.AddModelError(string.Empty, "There are a record with the same descripction");
                     }
@@ -118,8 +129,8 @@ namespace Taxes.Controllers
                 catch (Exception exception)
                 {
                     if (exception.InnerException != null &&
-                                          exception.InnerException.InnerException != null &&
-                                          exception.InnerException.InnerException.Message.Contains("Index"))
+                        exception.InnerException.InnerException != null &&
+                        exception.InnerException.InnerException.Message.Contains("Index"))
                     {
                         ModelState.AddModelError(string.Empty, "There are a record with the same descripction");
                     }
@@ -218,8 +229,8 @@ namespace Taxes.Controllers
                 catch (Exception exception)
                 {
                     if (exception.InnerException != null &&
-                         exception.InnerException.InnerException != null &&
-                         exception.InnerException.InnerException.Message.Contains("Index"))
+                        exception.InnerException.InnerException != null &&
+                        exception.InnerException.InnerException.Message.Contains("Index"))
                     {
                         ModelState.AddModelError(string.Empty, "There are a record with the same descripction");
                     }
@@ -227,6 +238,63 @@ namespace Taxes.Controllers
                     {
                         ModelState.AddModelError(string.Empty, exception.Message);
                     }
+                    return View(view);
+                }
+                return RedirectToAction($"Details/{view.DepartmentId}");
+            }
+            return View(view);
+        }
+
+        public ActionResult DeleteMunicipality(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var municipality = db.Municipalities.Find(id);
+            if (municipality == null)
+            {
+                return HttpNotFound();
+            }
+            db.Municipalities.Remove(municipality);
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
+            return RedirectToAction($"Details/{municipality.DepartmentId}");
+        }
+
+        public ActionResult EditMunicipality(int? municipalityId, int? departmentId)
+        {
+            if (municipalityId == null || departmentId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var municipality = db.Municipalities.Find(municipalityId);
+            if (municipality == null)
+            {
+                return HttpNotFound();
+            }
+            return View(municipality);
+        }
+
+        [HttpPost]
+        public ActionResult EditMunicipality(Municipality view)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(view).State=EntityState.Modified;
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
                     return View(view);
                 }
                 return RedirectToAction($"Details/{view.DepartmentId}");
